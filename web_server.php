@@ -1,9 +1,9 @@
 <?php
 //Login details
-$servername = "mysql4.gear.host";
-$username = "bloodbank";
-$password = "Wk602y_N66F_";
-$dbname = "bloodbank";
+$servername = "sql6.freemysqlhosting.net";
+$username = "sql6161476";
+$password = "CPuShiiIXa";
+$dbname = "sql6161476";
 
 //Create connection
 $conn = new mysqli("$servername", $username, $password, $dbname);
