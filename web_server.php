@@ -1,4 +1,5 @@
 <?php
+
 //Login details
 $servername = "sql6.freemysqlhosting.net";
 $username = "sql6161476";
@@ -9,9 +10,9 @@ $dbname = "sql6161476";
 $conn = new mysqli("$servername", $username, $password, $dbname);
 
 //Check connection
-if ($conn->connect_error) {
-    die("Connection failed: " . $conn->connect_error);
-} 
+//if ($conn->connect_error) {
+//    die("Connection failed: " . $conn->connect_error);
+//} 
 
 //echo "Connected successfully";
 
@@ -25,25 +26,51 @@ if ($conn->connect_error) {
 //}
 
 //Inserting data
-//$sql = "INSERT INTO BloodBank (UserName, Password, Name, BloodType, Location, Allergies) VALUES ('Dheeraj1998', 'Dheeraj@1998', 'Dheeraj Nair', 'B+', 'Jamnagar', 'Cold, Cough')";
+//Sample URL call is : http://localhost/PHP_Tutorial/web_service.php?type="insert"&username="Mohan1999"&password="123"&name="Mohan Patel"&bloodtype="O%2B"&location="Vellore"&allergies="None"
+if(isset($_GET['type'])){
+    $username = $_GET['username'];
+    $password = $_GET['password'];
+    $name = $_GET['name'];
+    $blood = $_GET['bloodtype'];
+    $location = $_GET['location'];
+    $allergy = $_GET['allergies'];
+    
+    $sql = "INSERT INTO BloodBank (UserName, Password, Name, BloodType, Location, Allergies) VALUES ($username, $password, $name, $blood, $location, $allergy)";
 
-//if ($conn->query($sql) === TRUE) {
-//    echo "\nNew record created successfully!";
-//} else {
-//    echo "\nError: " . $sql . "<br>" . $conn->error;
-//}
-
-//Selecting all data
-$sql = "SELECT * FROM BloodBank";
-$result = mysqli_query($conn ,$sql);
-	
-while ($row = mysqli_fetch_assoc($result)) {
-	$array[] = $row;
+    if ($conn->query($sql) === TRUE) {
+        echo "1";
+    } else {
+        echo "Error: " . $sql . "<br>" . $conn->error;
+    }
 }
 
-header('Content-Type:Application/json');
-echo json_encode($array);
-mysqli_free_result($result);
+//Selecting the data according to the Username & Blood Type
+//Sample URL call is : http://localhost/PHP_Tutorial/web_service.php?username="Dheeraj1998"
+elseif(isset($_GET['username'])){
+    $sql = "SELECT Password FROM BloodBank WHERE UserName = " . $_GET['username'];
+    
+    $result = mysqli_query($conn ,$sql);
+    $row = mysqli_fetch_assoc($result);
+    
+    header('Content-Type:Application/json');
+    echo json_encode($row);
+    mysqli_free_result($result);
+}
 
+//Sample URL call is : http://localhost/PHP_Tutorial/web_service.php?bloodtype="B%2B"
+elseif(isset($_GET['bloodtype'])){
+    $sql = "SELECT * FROM BloodBank WHERE BloodType = " . $_GET['bloodtype'];
+
+    $result = mysqli_query($conn ,$sql);
+    $row = mysqli_fetch_assoc($result);
+    
+    header('Content-Type:Application/json');
+    echo json_encode($row);
+    mysqli_free_result($result);
+}
+
+else{
+    echo "Hi! No parameters have been passed :)";
+}
 $conn->close();
 ?>
