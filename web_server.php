@@ -1,10 +1,10 @@
 <?php
 
 //Login details
-$servername = "sql6.freemysqlhosting.net";
-$username = "sql6161476";
-$password = "CPuShiiIXa";
-$dbname = "sql6161476";
+$servername = "mysql4.gear.host";
+$username = "bloodbank";
+$password = "Wk602y_N66F_";
+$dbname = "bloodbank";
 
 //Create connection
 $conn = new mysqli("$servername", $username, $password, $dbname);
@@ -38,7 +38,7 @@ if(isset($_GET['type'])){
     $sql = "INSERT INTO BloodBank (UserName, Password, Name, BloodType, Location, Allergies) VALUES ($username, $password, $name, $blood, $location, $allergy)";
 
     if ($conn->query($sql) === TRUE) {
-        echo "1";
+        echo "You have been registered successfully!";
     } else {
         echo "Error: " . $sql . "<br>" . $conn->error;
     }
