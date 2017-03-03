@@ -26,6 +26,7 @@ $conn = new mysqli("$servername", $username, $password, $dbname);
 //}
 
 //Getting all data from server
+//Sample URL call is : http://localhost/PHP_Tutorial/web_service.php?admin
 if(isset($_GET['admin'])){
     $sql = "SELECT * FROM BloodBank";
 
@@ -60,19 +61,25 @@ elseif(isset($_GET['type'])){
     }
 }
 
-//Selecting the data according to the Username & Blood Type
-//Sample URL call is : http://localhost/PHP_Tutorial/web_service.php?username="Dheeraj1998"
-elseif(isset($_GET['username'])){
+//Validating the user according to the username
+//Sample URL call is : http://localhost/PHP_Tutorial/web_service.php?username="Dheeraj1998"&password="Dheeraj%401998"
+elseif(isset($_GET['username']) && isset($_GET['password'])){
     $sql = "SELECT Password FROM BloodBank WHERE UserName = " . $_GET['username'];
     
     $result = mysqli_query($conn ,$sql);
     $row = mysqli_fetch_assoc($result);
-    
     header('Content-Type:Application/json');
-    echo json_encode($row);
+    
+    if($row['Password'] == str_replace("\"", "", $_GET['password'])){
+        echo 'Success';
+    }
+    else{
+        echo 'Fail';
+    }
     mysqli_free_result($result);
 }
 
+//Selecting all people with a particular bloodtype
 //Sample URL call is : http://localhost/PHP_Tutorial/web_service.php?bloodtype="B%2B"
 elseif(isset($_GET['bloodtype'])){
     $sql = "SELECT * FROM BloodBank WHERE BloodType = " . $_GET['bloodtype'];
@@ -80,7 +87,7 @@ elseif(isset($_GET['bloodtype'])){
     $result = mysqli_query($conn ,$sql);
     $array = [];
     
-    while($row = $result->fetch_array()){
+    while($row = $result->fetch_assoc()){
         $array[] = $row;
     }
     
