@@ -32,7 +32,7 @@ if(isset($_GET['admin'])){
     $result = mysqli_query($conn ,$sql);
     $array = [];
     
-    while($row = $result->fetch_array()){
+    while($row = $result->fetch_assoc()){
         $array[] = $row;
     }
     
