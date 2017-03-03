@@ -25,9 +25,25 @@ $conn = new mysqli("$servername", $username, $password, $dbname);
 //    echo "Error creating table: " . $conn->error;
 //}
 
+//Getting all data from server
+if(isset($_GET['admin'])){
+    $sql = "SELECT * FROM BloodBank";
+
+    $result = mysqli_query($conn ,$sql);
+    $array = [];
+    
+    while($row = $result->fetch_array()){
+        $array[] = $row;
+    }
+    
+    header('Content-Type:Application/json');
+    echo json_encode($array);
+    mysqli_free_result($result);
+}
+
 //Inserting data
 //Sample URL call is : http://localhost/PHP_Tutorial/web_service.php?type="insert"&username="Mohan1999"&password="123"&name="Mohan Patel"&bloodtype="O%2B"&location="Vellore"&allergies="None"
-if(isset($_GET['type'])){
+elseif(isset($_GET['type'])){
     $username = $_GET['username'];
     $password = $_GET['password'];
     $name = $_GET['name'];
@@ -62,10 +78,14 @@ elseif(isset($_GET['bloodtype'])){
     $sql = "SELECT * FROM BloodBank WHERE BloodType = " . $_GET['bloodtype'];
 
     $result = mysqli_query($conn ,$sql);
-    $row = mysqli_fetch_assoc($result);
+    $array = [];
+    
+    while($row = $result->fetch_array()){
+        $array[] = $row;
+    }
     
     header('Content-Type:Application/json');
-    echo json_encode($row);
+    echo json_encode($array);
     mysqli_free_result($result);
 }
 
