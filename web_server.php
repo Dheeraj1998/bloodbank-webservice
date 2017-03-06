@@ -96,6 +96,17 @@ elseif(isset($_GET['bloodtype'])){
     mysqli_free_result($result);
 }
 
+elseif(isset($_GET['login'] && $_GET['username']) && isset($_GET['password'])){
+    $sql = "SELECT * FROM BloodBank WHERE UserName = " . $_GET['username'] . " AND Password = " . $_GET['password'];
+
+    $result = mysqli_query($conn ,$sql);
+    $row = $result->fetch_assoc()
+    
+    header('Content-Type:Application/json');
+    echo json_encode($row);
+    mysqli_free_result($result);
+}
+
 else{
     echo "Hi! No parameters have been passed :)";
 }
