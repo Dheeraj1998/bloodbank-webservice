@@ -98,7 +98,7 @@ elseif(isset($_GET['bloodtype'])){
 
 //Getting the details of a user by validating his username and password
 //Sample URL call is: http://localhost/PHP_Tutorial/web_service.php?login=''&username='Dheeraj'&password='123'
-elseif(isset($_GET['login']) && isset($_GET['username']) && isset($_GET['password'])){
+elseif(!isset($_GET['modify']) && isset($_GET['login']) && isset($_GET['username']) && isset($_GET['password'])){
     $sql = "SELECT * FROM BloodBank WHERE UserName = " . $_GET['username'] . " AND Password = " . $_GET['password'];
 
     $result = mysqli_query($conn ,$sql);
@@ -107,6 +107,21 @@ elseif(isset($_GET['login']) && isset($_GET['username']) && isset($_GET['passwor
     header('Content-Type:Application/json');
     echo json_encode($row);
     mysqli_free_result($result);
+}
+
+//Modifying the details of a user by validating his username and password
+//Sample URL call is: http://dheerajprojects.gear.host/web_server.php?modify=''&username='Dheeraj1998'&mpass='123'&maller='Cold'&mblood='A%2B'&mname="Dheeraj"&mloc="Jamnagar"
+elseif(isset($_GET['modify']) && isset($_GET['username'])){
+    $sql = "UPDATE BloodBank SET Password = " . $_GET['mpass'] . ", Name = " . $_GET['mname'] . ", Location = " . $_GET['mloc'] . ", Allergies = " . $_GET['maller'] . ", Blood = " . $_GET['mblood'] . " WHERE UserName = " . $_GET['username'];
+
+    $result = mysqli_query($conn ,$sql);
+    $row = $result->fetch_assoc();
+    
+    if ($conn->query($sql) === TRUE) {
+        echo "Details have been modified!";
+    } else {
+        echo "Error: " . $sql . "<br>" . $conn->error;
+    }
 }
 
 else{
