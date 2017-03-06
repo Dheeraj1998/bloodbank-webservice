@@ -112,7 +112,7 @@ elseif(!isset($_GET['modify']) && isset($_GET['login']) && isset($_GET['username
 //Modifying the details of a user by validating his username and password
 //Sample URL call is: http://dheerajprojects.gear.host/web_server.php?modify=''&username='Dheeraj1998'&mpass='123'&maller='Cold'&mblood='A%2B'&mname="Dheeraj"&mloc="Jamnagar"
 elseif(isset($_GET['modify']) && isset($_GET['username'])){
-    $sql = "UPDATE BloodBank SET Password = " . $_GET['mpass'] . ", Name = " . $_GET['mname'] . ", Location = " . $_GET['mloc'] . ", Allergies = " . $_GET['maller'] . ", Blood = " . $_GET['mblood'] . " WHERE UserName = " . $_GET['username'];
+    $sql = "UPDATE BloodBank SET Password = " . $_GET['mpass'] . ", Name = " . $_GET['mname'] . ", Location = " . $_GET['mloc'] . ", Allergies = " . $_GET['maller'] . ", BloodType = " . $_GET['mblood'] . " WHERE UserName = " . $_GET['username'];
     
     if ($conn->query($sql) === TRUE) {
         echo "Details have been modified!";
