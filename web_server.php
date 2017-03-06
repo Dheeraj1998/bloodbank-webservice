@@ -61,9 +61,9 @@ elseif(isset($_GET['type'])){
     }
 }
 
-//Validating the user according to the username
+//Validating the user according to the Username
 //Sample URL call is : http://localhost/PHP_Tutorial/web_service.php?username="Dheeraj1998"&password="Dheeraj%401998"
-elseif(isset($_GET['username']) && isset($_GET['password'])){
+elseif(!isset($_GET['login']) && isset($_GET['username']) && isset($_GET['password'])){
     $sql = "SELECT Password FROM BloodBank WHERE UserName = " . $_GET['username'];
     
     $result = mysqli_query($conn ,$sql);
@@ -93,6 +93,19 @@ elseif(isset($_GET['bloodtype'])){
     
     header('Content-Type:Application/json');
     echo json_encode($array);
+    mysqli_free_result($result);
+}
+
+//Getting the details of a user by validating his username and password
+//Sample URL call is: http://localhost/PHP_Tutorial/web_service.php?login=''&username='Dheeraj'&password='123'
+elseif(isset($_GET['login']) && isset($_GET['username']) && isset($_GET['password'])){
+    $sql = "SELECT * FROM BloodBank WHERE UserName = " . $_GET['username'] . " AND Password = " . $_GET['password'];
+
+    $result = mysqli_query($conn ,$sql);
+    $row = $result->fetch_assoc();
+    
+    header('Content-Type:Application/json');
+    echo json_encode($row);
     mysqli_free_result($result);
 }
 
