@@ -2,8 +2,8 @@
 
 //Login details
 $servername = "mysql4.gear.host";
-$username = "bloodbank";
-$password = "Wk602y_N66F_";
+$username = "readonly";
+$password = "123qweasdzxc@";
 $dbname = "bloodbank";
 
 //Create connection
