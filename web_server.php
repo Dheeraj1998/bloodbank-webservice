@@ -2,8 +2,8 @@
 
 //Login details
 $servername = "mysql4.gear.host";
-$username = "readonly";
-$password = "123qweasdzxc@";
+$username = "bloodbank";
+$password = "vd3-ch8-LtU-Jcm";
 $dbname = "bloodbank";
 
 //Create connection
@@ -17,7 +17,7 @@ $conn = new mysqli("$servername", $username, $password, $dbname);
 //echo "Connected successfully";
 
 //Create table query
-//$sql = "CREATE TABLE BloodBank (UserName VARCHAR(40) NOT NULL, Password VARCHAR(40) NOT NULL, Name VARCHAR(40) NOT NULL , BloodType VARCHAR(3) NOT NULL , Location VARCHAR(40) NOT NULL, Allergies VARCHAR(40) NULL, PRIMARY KEY (UserName))";
+//$sql = "CREATE TABLE BloodBank (Username VARCHAR(40) NOT NULL, Password VARCHAR(40) NOT NULL, Name VARCHAR(40) NOT NULL , BloodType VARCHAR(3) NOT NULL , MobNumber VARCHAR(10) NOT NULL, Location VARCHAR(40) NOT NULL, Allergies VARCHAR(40) NULL, PRIMARY KEY (UserName))";
 
 //if ($conn->query($sql) === TRUE) {
 //    echo "Table BloodBank created successfully!";} 
@@ -43,16 +43,17 @@ if(isset($_GET['admin'])){
 }
 
 //Inserting data
-//Sample URL call is : http://localhost/PHP_Tutorial/web_service.php?type="insert"&username="Mohan1999"&password="123"&name="Mohan Patel"&bloodtype="O%2B"&location="Vellore"&allergies="None"
+//Sample URL call is : http://localhost/PHP_Tutorial/web_service.php?type="insert"&username="Mohan1999"&password="123"&name="Mohan Patel"&bloodtype="O%2B"&mobilenumber="1234567890"&location="Vellore"&allergies="None"
 elseif(isset($_GET['type'])){
     $username = $_GET['username'];
     $password = $_GET['password'];
     $name = $_GET['name'];
     $blood = $_GET['bloodtype'];
+    $mobnumber = $_GET['mobilenumber'];
     $location = $_GET['location'];
     $allergy = $_GET['allergies'];
     
-    $sql = "INSERT INTO BloodBank (UserName, Password, Name, BloodType, Location, Allergies) VALUES ($username, $password, $name, $blood, $location, $allergy)";
+    $sql = "INSERT INTO BloodBank (UserName, Password, Name, BloodType, MobNumber, Location, Allergies) VALUES ($username, $password, $name, $blood, $mobnumber, $location, $allergy)";
 
     if ($conn->query($sql) === TRUE) {
         echo "You have been registered successfully!";
@@ -110,9 +111,9 @@ elseif(!isset($_GET['modify']) && isset($_GET['login']) && isset($_GET['username
 }
 
 //Modifying the details of a user by validating his username and password
-//Sample URL call is: http://dheerajprojects.gear.host/web_server.php?modify=''&username='Dheeraj1998'&mpass='123'&maller='Cold'&mblood='A%2B'&mname="Dheeraj"&mloc="Jamnagar"
+//Sample URL call is: http://dheerajprojects.gear.host/web_server.php?modify=''&username='Dheeraj1998'&mpass='123'&maller='Cold'&mblood='A%2B'&mmobilenumber="1231231231"&mname="Dheeraj"&mloc="Jamnagar"
 elseif(isset($_GET['modify']) && isset($_GET['username'])){
-    $sql = "UPDATE BloodBank SET Password = " . $_GET['mpass'] . ", Name = " . $_GET['mname'] . ", Location = " . $_GET['mloc'] . ", Allergies = " . $_GET['maller'] . ", BloodType = " . $_GET['mblood'] . " WHERE UserName = " . $_GET['username'];
+    $sql = "UPDATE BloodBank SET Password = " . $_GET['mpass'] . ", Name = " . $_GET['mname'] . ", Location = " . $_GET['mloc'] . ", Allergies = " . $_GET['maller'] . ", MobNumber = " . $_GET['mmobilenumber'] . ", BloodType = " . $_GET['mblood'] . " WHERE UserName = " . $_GET['username'];
     
     if ($conn->query($sql) === TRUE) {
         echo "Details have been modified!";
