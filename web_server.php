@@ -65,7 +65,7 @@ elseif(isset($_GET['type'])){
 //Validating the user according to the Username
 //Sample URL call is : http://localhost/PHP_Tutorial/web_service.php?username="Dheeraj1998"&password="Dheeraj%401998"
 elseif(!isset($_GET['login']) && isset($_GET['username']) && isset($_GET['password'])){
-    $sql = "SELECT Password FROM BloodBank WHERE Username = " . $_GET['username'];
+    $sql = "SELECT Password FROM BloodBank WHERE Username = '" . $_GET['username'] . "'";
     
     $result = mysqli_query($conn ,$sql);
     $row = mysqli_fetch_assoc($result);
@@ -73,6 +73,10 @@ elseif(!isset($_GET['login']) && isset($_GET['username']) && isset($_GET['passwo
     
     if($row['Password'] == str_replace("\"", "", $_GET['password'])){
         echo 'Success';
+    }
+    elseif($row['Password'] == $_GET['password']){
+        echo 'Success';
+        header('dashboard.php');
     }
     else{
         echo 'Fail';
@@ -83,7 +87,7 @@ elseif(!isset($_GET['login']) && isset($_GET['username']) && isset($_GET['passwo
 //Selecting all people with a particular bloodtype
 //Sample URL call is : http://localhost/PHP_Tutorial/web_service.php?bloodtype="B%2B"
 elseif(isset($_GET['bloodtype'])){
-    $sql = "SELECT * FROM BloodBank WHERE BloodType = " . $_GET['bloodtype'];
+    $sql = "SELECT * FROM BloodBank WHERE BloodType = '" . $_GET['bloodtype'] . "'";
 
     $result = mysqli_query($conn ,$sql);
     $array = [];
